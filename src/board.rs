@@ -3,6 +3,7 @@ use crate::cell::Cell;
 
 const N: usize = 100;
 
+#[derive(Copy, Clone)]
 pub struct Board{
     cells : [[Cell; N] ; N],
 }
@@ -24,6 +25,10 @@ impl Board {
 
     pub fn get_cells(self)->[[Cell; N] ; N]{
         self.cells
+    }
+
+    pub fn toggle_cell(&mut self,i:usize,j:usize){
+        self.cells[i][j].toggle_state();
     }
 
     pub fn update(&mut self){

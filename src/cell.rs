@@ -48,4 +48,8 @@ impl Cell{
     pub fn get_y(self)->i32{
         self.position.y
     }
+
+    pub fn toggle_state(&mut self){
+        self.alive_current_state = !self.alive_current_state;
+    }
 }
