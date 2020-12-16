@@ -1,10 +1,9 @@
 
-//use cell::Cell;
 use crate::cell::Cell;
 
-const N: usize = 600;
+const N: usize = 100;
 
-struct Board{
+pub struct Board{
     cells : [[Cell; N] ; N],
 }
 
@@ -17,10 +16,14 @@ impl Board {
 
         for i in 0..N {
             for j in 0..N {
-                board.cells[i][j] = Cell::new(false, i as u16, j as u16);
+                board.cells[i][j] = Cell::new(false, i as i32, j as i32);
             }
         }
         return board
+    }
+
+    pub fn get_cells(self)->[[Cell; N] ; N]{
+        self.cells
     }
 
     pub fn update(&mut self){

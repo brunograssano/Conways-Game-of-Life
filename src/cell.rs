@@ -1,8 +1,8 @@
 
 #[derive(Copy, Clone)]
 struct Position{
-    x : u16,
-    y : u16,
+    x : i32,
+    y : i32,
 }
 
 #[derive(Copy, Clone)]
@@ -14,7 +14,7 @@ pub struct Cell{
 
 impl Cell{
 
-    pub fn new(alive:bool, x:u16, y:u16) ->Cell{
+    pub fn new(alive:bool, x:i32, y:i32) ->Cell{
         Cell{
             alive_current_state: alive,
             alive_next_state: false,
@@ -40,5 +40,12 @@ impl Cell{
 
     pub fn update(&mut self){
         self.alive_current_state = self.alive_next_state;
+    }
+
+    pub fn get_x(self)->i32{
+        self.position.x
+    }
+    pub fn get_y(self)->i32{
+        self.position.y
     }
 }
