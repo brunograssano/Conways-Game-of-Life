@@ -1,8 +1,8 @@
 
 #[derive(Copy, Clone)]
 struct Position{
-    x : i32,
-    y : i32,
+    row: i32,
+    col: i32,
 }
 
 #[derive(Copy, Clone)]
@@ -14,11 +14,11 @@ pub struct Cell{
 
 impl Cell{
 
-    pub fn new(alive:bool, x:i32, y:i32) ->Cell{
+    pub fn new(alive:bool, row:i32, col:i32) ->Cell{
         Cell{
             alive_current_state: alive,
             alive_next_state: false,
-            position : Position{ x, y }
+            position : Position{ row, col }
         }
     }
 
@@ -43,10 +43,10 @@ impl Cell{
     }
 
     pub fn get_x(self)->i32{
-        self.position.x
+        self.position.row
     }
     pub fn get_y(self)->i32{
-        self.position.y
+        self.position.col
     }
 
     pub fn toggle_state(&mut self){

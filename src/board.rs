@@ -31,19 +31,24 @@ impl Board {
         self.cells[i][j].toggle_state();
     }
 
-    pub fn update(&mut self){
-        for i  in 1..(N-1) {
-            for j in 1..(N - 1) {
-
-                //get neighbours for each cell
-                let mut neighbors: usize = 0;
-                for x in 0..3 {
-                    for y in 0..3 {
-                        neighbors += self.cells[i + x - 1][j + y - 1].affects_cell();
-                    }
+    fn get_neighbours(&mut self, row: usize, col: usize) -> usize {
+        let mut neighbors: usize = 0;
+        for x in 0..3 {
+            for y in 0..3 {
+                if is_inside_grid(row as i32, col as i32, x as i32, y as i32) {
+                    neighbors += self.cells[row + x - 1][col + y - 1].affects_cell();
                 }
+            }
+        }
 
-                neighbors -= self.cells[i][j].affects_cell(); //you don't affect yourself
+        neighbors -= self.cells[row][col].affects_cell();
+        neighbors
+    }
+
+    pub fn update(&mut self){
+        for i  in 0..N {
+            for j in 0..N {
+                let neighbors = self.get_neighbours(i, j);
 
                 if self.cells[i][j].is_alive() && (neighbors == 2 || neighbors == 3) { self.cells[i][j].survives() }
                 else if ! self.cells[i][j].is_alive() && neighbors == 3 { self.cells[i][j].survives() }
@@ -51,12 +56,17 @@ impl Board {
             }
         }
 
-
-        for i  in 1..(N-1) {
-            for j in 1..(N - 1) {
+        for i  in 0..N {
+            for j in 0..N {
                 self.cells[i][j].update();
             }
         }
     }
 
+}
+
+fn is_inside_grid(row:i32, col:i32, x:i32, y:i32)->bool{
+    let j = col + y - 1;
+    let i = row + x - 1;
+    (0 <= i) && (i < N as i32) &&(0 <= j) && (j < N as i32)
 }
