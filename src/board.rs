@@ -10,14 +10,19 @@ pub struct Board{
 
 impl Board {
 
-    pub fn new()->Board{
+    pub fn new(random_start : bool,colorful_game:bool)->Board{
         let mut board = Board{
-            cells : [[ Cell::new(false, 0, 0); N]; N]
+            cells : [[ Cell::new(false, 0, 0,[0.0;4]); N]; N]
         };
 
         for i in 0..N {
             for j in 0..N {
-                board.cells[i][j] = Cell::new(false, i as i32, j as i32);
+                board.cells[i][j] = Cell::new(if random_start {rand::random()}
+                                                    else { false },
+                                              i as i32,
+                                              j as i32,
+                                              if colorful_game {[rand::random(), rand::random(),rand::random(), 1.0]}
+                                                    else { [0.0, 0.0, 0.0, 1.0] });
             }
         }
         return board
@@ -45,7 +50,15 @@ impl Board {
         neighbors
     }
 
-    pub fn update(&mut self){
+    fn swap_states(&mut self) {
+        for i in 0..N {
+            for j in 0..N {
+                self.cells[i][j].update_state();
+            }
+        }
+    }
+
+    pub fn update_board(&mut self){
         for i  in 0..N {
             for j in 0..N {
                 let neighbors = self.get_neighbours(i, j);
@@ -56,11 +69,7 @@ impl Board {
             }
         }
 
-        for i  in 0..N {
-            for j in 0..N {
-                self.cells[i][j].update();
-            }
-        }
+        self.swap_states()
     }
 
 }
