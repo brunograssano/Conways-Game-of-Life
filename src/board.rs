@@ -33,6 +33,9 @@ impl Board {
     }
 
     pub fn toggle_cell(&mut self,i:usize,j:usize){
+        if i>=N || j>=N{
+            return;
+        }
         self.cells[i][j].toggle_state();
     }
 
