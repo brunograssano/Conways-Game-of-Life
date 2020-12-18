@@ -7,6 +7,7 @@ struct Position{
 
 #[derive(Copy, Clone)]
 pub struct Cell{
+    original_state: bool,
     alive_current_state: bool,
     alive_next_state: bool,
     position : Position,
@@ -17,6 +18,7 @@ impl Cell{
 
     pub fn new(alive:bool, row:i32, col:i32, color:[f32;4]) ->Cell{
         Cell{
+            original_state: alive,
             alive_current_state: alive,
             alive_next_state: false,
             position : Position{ row, col },
@@ -47,6 +49,7 @@ impl Cell{
     pub fn get_x(self)->i32{
         self.position.row
     }
+
     pub fn get_y(self)->i32{
         self.position.col
     }
@@ -57,5 +60,9 @@ impl Cell{
 
     pub fn toggle_state(&mut self){
         self.alive_current_state = !self.alive_current_state;
+    }
+
+    pub fn restart(&mut self){
+        self.alive_current_state = self.original_state;
     }
 }

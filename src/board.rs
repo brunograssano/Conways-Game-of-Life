@@ -1,4 +1,3 @@
-
 use crate::cell::Cell;
 
 const N: usize = 100;
@@ -73,6 +72,14 @@ impl Board {
         }
 
         self.swap_states()
+    }
+
+    pub fn restart(&mut self){
+        for i  in 0..N {
+            for j in 0..N {
+                self.cells[i][j].restart();
+            }
+        }
     }
 
 }
