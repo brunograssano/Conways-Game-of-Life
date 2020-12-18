@@ -13,15 +13,12 @@ impl Board {
         let mut board = Board{
             cells : [[ Cell::new(false, 0, 0,[0.0;4]); N]; N]
         };
-
+        let black = [0.0, 0.0, 0.0, 1.0];
         for i in 0..N {
             for j in 0..N {
-                board.cells[i][j] = Cell::new(if random_start {rand::random()}
-                                                    else { false },
-                                              i as i32,
-                                              j as i32,
-                                              if colorful_game {[rand::random(), rand::random(),rand::random(), 1.0]}
-                                                    else { [0.0, 0.0, 0.0, 1.0] });
+                board.cells[i][j] = Cell::new(if random_start {rand::random()} else { false },
+                                              i as i32, j as i32,
+                                              if colorful_game {[rand::random(), rand::random(),rand::random(), 1.0]} else { black });
             }
         }
         return board
@@ -42,9 +39,7 @@ impl Board {
         let mut neighbors: usize = 0;
         for x in 0..3 {
             for y in 0..3 {
-                if is_inside_grid(row as i32, col as i32, x as i32, y as i32) {
-                    neighbors += self.cells[row + x - 1][col + y - 1].affects_cell();
-                }
+                neighbors += self.cells[(row + x + N - 1) % N][(col + y + N - 1) % N].affects_cell();
             }
         }
 
@@ -82,10 +77,4 @@ impl Board {
         }
     }
 
-}
-
-fn is_inside_grid(row:i32, col:i32, x:i32, y:i32)->bool{
-    let j = col + y - 1;
-    let i = row + x - 1;
-    (0 <= i) && (i < N as i32) &&(0 <= j) && (j < N as i32)
 }

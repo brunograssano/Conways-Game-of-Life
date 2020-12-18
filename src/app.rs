@@ -64,8 +64,7 @@ impl App{
 
     pub fn game_loop(&mut self) {
         let mut mouse_pos = (0.0, 0.0);
-        let event_settings = EventSettings::new();
-        let mut events = Events::new(event_settings);
+        let mut events = Events::new(EventSettings::new());
         while let Some(e) = events.next(&mut self.window) {
             if let Some(_r) = e.render_args() {
                 self.draw(e);
